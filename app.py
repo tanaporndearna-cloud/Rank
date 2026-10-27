@@ -213,10 +213,8 @@ def page_rank():
 
 # ------------------------------------------------------------------ หลัก
 password_gate()
-st.sidebar.title("📊 Rank สินค้า TRC")
-page = st.sidebar.radio("เมนู", ["1) รวมข้อมูล Data Rank", "2) จัด Rank สินค้า"])
-st.sidebar.caption("ทำต้นเดือนทุกเดือน: ส่วนที่ 1 แล้วต่อด้วยส่วนที่ 2")
-if page.startswith("1"):
-    page_merge()
-else:
-    page_rank()
+st.title("📊 Rank สินค้า TRC")
+st.caption("ทำต้นเดือนทุกเดือน: ส่วนที่ 1 รวมข้อมูล แล้วต่อด้วยส่วนที่ 2 จัด Rank")
+page_merge()
+st.divider()
+page_rank()
