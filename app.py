@@ -74,14 +74,25 @@ def page_merge():
     st.header("1) รวมข้อมูลเป็น Data Rank")
     st.caption("ใส่ PPS, PLR, New Product, BarBom และ Data Rank เดือนก่อน  ระบบรวมด้วย Product Code "
                "และเติมยี่ห้อ/รุ่นที่เดือนก่อนไม่มีให้จากรายละเอียดสินค้า")
+    files = st.file_uploader("PPS, PLR, New Product, BarBom (เลือกพร้อมกันทั้ง 4 ไฟล์)",
+                             type=["xlsx", "csv"], accept_multiple_files=True, key="src4")
+    found = {}
+    for f in files or []:
+        n = f.name.lower()
+        for k, kw in (("bb", "bar"), ("newp", "new"), ("plr", "plr"), ("pps", "pps")):
+            if kw in n:
+                found.setdefault(k, f)
+                break
+    labels = dict(pps="PPS", plr="PLR", newp="New Product", bb="BarBom")
+    if files:
+        st.write("  ".join(("✅ " if k in found else "❌ ") + v for k, v in labels.items()))
+        if len(found) < len(files):
+            st.warning("มีไฟล์ที่ชื่อไม่มีคำว่า pps / plr / new / bar จึงไม่ถูกใช้ กรุณาตั้งชื่อไฟล์ให้มีคำเหล่านี้")
+    pps, plr, newp, bb = (found.get(k) for k in ("pps", "plr", "newp", "bb"))
     c1, c2 = st.columns(2)
     with c1:
-        pps = st.file_uploader("PPS (xlsx)", type=["xlsx"], key="pps")
-        plr = st.file_uploader("PLR (csv / xlsx)", type=["csv", "xlsx"], key="plr")
-        newp = st.file_uploader("New Product (xlsx / csv)", type=["xlsx", "csv"], key="newp")
-    with c2:
-        bb = st.file_uploader("BarBom (xlsx)", type=["xlsx"], key="bb")
         prev = st.file_uploader("Data Rank เดือนก่อน (xlsx)", type=["xlsx"], key="prev")
+    with c2:
         month = st.selectbox("เดือนของ Data Rank ที่จะสร้าง", [f"{i:02d}" for i in range(1, 13)], index=8)
 
     if st.button("▶ รวมข้อมูล", type="primary", disabled=not all([pps, plr, newp, bb, prev])):
