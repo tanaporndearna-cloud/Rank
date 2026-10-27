@@ -588,6 +588,7 @@ def main(argv=None):
     ap.add_argument("--template", help="ไฟล์เทมเพลต Rank (ไม่ใส่ = ใช้ --master หรือเทมเพลตที่ติดมากับสกิล)")
     ap.add_argument("--csr", nargs="*", default=[], help="ไฟล์ CSR เดือนใหม่ที่จะต่อท้ายปีนั้น")
     ap.add_argument("--year", type=int, required=True)
+    ap.add_argument("--keep-years", type=int, default=4, help="จำนวนปีที่แสดง (ปีล่าสุดย้อนหลัง) ค่าเริ่มต้น 4")
     ap.add_argument("--month", type=int, required=True, help="เดือนที่จัด Rank 1-12")
     ap.add_argument("--cut-cats", help="ไฟล์ .txt ลิสต์ Category ตัดออก (บรรทัดละ 1 ค่า) ใช้แทนค่าเริ่มต้น")
     ap.add_argument("--out", required=True)
@@ -610,7 +611,7 @@ def main(argv=None):
     if a.sales_cache:
         save_sales(sales, a.sales_cache)
     yrs = sorted({y for y, _ in sales} | {a.year})
-    years = [y for y in yrs if y <= a.year]
+    years = [y for y in yrs if y <= a.year][-a.keep_years:]   # เก็บ N ปีล่าสุด เช่น 2027 -> 2024-2027
     if not any(key[0] == a.year and key[1] == k - 1 for key in sales):
         print(f"! ยังไม่มียอดขายเดือน {MONTHS[k-1]} {a.year} (ใส่ --csr หรือเช็กชีตปีนั้น)")
 
