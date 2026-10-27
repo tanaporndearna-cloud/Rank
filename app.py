@@ -152,7 +152,7 @@ def page_rank():
     else:
         st.write(f"ใช้ {st.session_state['dr_name']}")
 
-    tpl = st.file_uploader("เทมเพลต Rank (ไฟล์ Rank เดือนก่อน ที่มีชีตปี 2023-2026)", type=["xlsx"], key="tpl",
+    tpl = st.file_uploader("เทมเพลต Rank (ไฟล์ Rank เดือนก่อน ที่มีชีตยอดขายรายปี)", type=["xlsx"], key="tpl",
                            help="ใช้เป็นต้นแบบหน้าตา และเป็นแหล่งยอดขายย้อนหลัง")
     cache = st.file_uploader("ยอดขายที่เก็บไว้แล้ว (.json.gz) ไม่ใส่ก็ได้", type=["gz"], key="cache",
                              help="ไฟล์ที่ระบบให้ดาวน์โหลดไว้ครั้งก่อน ช่วยข้ามการอ่านชีตปีที่ใหญ่ (ประหยัดเวลา)")
