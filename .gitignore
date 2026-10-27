@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.streamlit/secrets.toml
+# ห้ามอัปโหลดข้อมูลจริงขึ้น GitHub
+*.csv
+*.xlsx
+*.json.gz
+!assets/rank_template.xlsx
